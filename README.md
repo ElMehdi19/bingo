@@ -1,3 +1,8 @@
+# BINGO
+
+**Reverse IP LOOK** - using BING.
+
+
 Command line parameters:
 
     $ python app.py -h
@@ -15,9 +20,9 @@ Usage:
 
 Output:
 
-    http://domain1.com
-    http://domain2.com
-    http://sub.domain1.com
+    http://domain1.com/
+    http://domain2.com/
+    http://www.domain3.com/
 
     _____________________________
 
