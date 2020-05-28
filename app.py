@@ -3,7 +3,10 @@ import argparse
 import re
 import requests
 
-os.system('cls')
+try:
+    os.system('cls')
+except Exception:
+    os.system('clear')
 
 parser = argparse.ArgumentParser(description='IP Address & Writing results')
 parser.add_argument('-i', '--ip', type=str, required=True, help='Server\'s IP address')
