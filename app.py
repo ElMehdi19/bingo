@@ -1,12 +1,16 @@
-import os
-import argparse
 import re
+import os
+import subprocess
+import argparse
 import requests
 
-try:
-    os.system('cls')
-except Exception:
-    os.system('clear')
+def clr():
+    # clear screen
+    try:
+        subprocess.run('clear')
+    except Exception:
+        subprocess.run('cls', shell=True)
+clr()
 
 parser = argparse.ArgumentParser(description='IP Address & Writing results')
 parser.add_argument('-i', '--ip', type=str, required=True, help='Server\'s IP address')
@@ -18,7 +22,7 @@ args = parser.parse_args()
 def format_links(urls=None):
     urls = [] if urls==None else urls
     pattern = re.compile('(https?://[a-z0-9.-]+\.[a-z]+/)')
-    links = [pattern.search(link).group(0) for link in urls if pattern.search(link) is not None]
+    links = [pattern.search(link).group(0) for link in urls if pattern.search(link)]
     return links
 
 page = 1
@@ -49,12 +53,13 @@ while True:
         nextp = re.compile('class="sw_next"')
         nextp = nextp.search(html)
 
-        if nextp is not None:
+        if nextp:
             page += 10
         else:
             break
 
-os.system('cls')
+clr()
+
 final_urls = format_links(start_urls)
 
 print(*final_urls, sep='\n')
@@ -63,8 +68,17 @@ print(f'\n\n{len(final_urls)} websites found on {args.ip}')
 if args.file:
     try:
         os.mkdir('results')
-    except Exception:
+    except OSError:
         pass
-    with open(f'results/{args.ip}.txt', 'a') as f:
+    
+    output_dir = os.path.join(os.getcwd(), 'results')
+    if (os.path.isdir(output_dir)):
+        output_file = os.path.join(output_dir, f'{args.ip}.txt')
+        
+    else:
+        print('Couldnt write results to file')
+        exit()
+       
+    with open(output_file, 'a') as f:
         for url in final_urls:
             f.write(f'{url}\n')
